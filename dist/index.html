@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
+</head>
+
+<body>
+
+<div id='chart'></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="js/global-chart.js"></script>
+
+<script>
+// Global which will contain an instance of our chart
+// texasChoropleth is defined in global-chart.js
+var myChart = new TurnoutChart();
+// This is the initial draw, which needs a selection string and data.
+// You can also pass a props object.
+$.getJSON('http://s3.amazonaws.com/politico-elections-data/2017/georgia-six-special/data/june.json', function(data){
+  myChart.create("#chart", data, {
+    stroke: '#333',
+  });
+});
+// This is an update to the chart, which only needs new data.
+setTimeout(function(){
+  console.log('update');
+  $.getJSON('http://s3.amazonaws.com/politico-elections-data/2017/georgia-six-special/data/june.json', function(data){
+    myChart.update(data);
+  });
+}, 5000);
+</script>
+
+</body>
